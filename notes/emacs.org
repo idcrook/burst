@@ -2,7 +2,7 @@
 
 ** install rust
 
-- install `rust` using `rustup`
+- install =rust= using =rustup=
 
 This was performed on a Ubunutu Linux 19.10 system
 
@@ -48,6 +48,7 @@ This can be modified with the RUSTUP_HOME environment variable.
 
 This path will then be added to your PATH environment variable by
 modifying the profile files located at:
+
 
   /home/user/.profile
 /home/user/.zprofile
