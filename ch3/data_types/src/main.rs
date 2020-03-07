@@ -57,7 +57,8 @@ fn main() {
     ];
 
     let a: [i32; 5] = [1, 2, 3, 4, 5];
-    println!("The value of a[4] is: {}", a[0]);
+    //println!("The value of a[] is: {:?}", a.iter());
+    println!("The value of a[] is: {:?}", a);
     let a = [3; 5];
     println!("The value of a[4] is: {}", a[4]);
 }
