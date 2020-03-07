@@ -3,4 +3,8 @@ fn main() {
     let x = x + 1;
     let x = x * 2;
     println!("The value of x is: {}", x);
+
+    let mut spaces = "";
+    //spaces = spaces.len();
+    let spaces = spaces.len();
 }
