@@ -1,37 +1,63 @@
 #![allow(unused_variables)]
+use std::error::Error;
+use std::fs;
 use std::fs::File;
-use std::io::ErrorKind;
+use std::io;
+use std::io::Read;
 
-fn main() {
-    // // shortcut to panic if Error
-    // let f = File::open("hello.txt").unwrap();
-    //thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value:
-    // Os { code: 2, kind: NotFound, message: "No such file or directory" }',
-    // src/libcore/result.rs:1188:5
-
+fn read_username_from_file() -> Result<String, io::Error> {
     let f = File::open("hello.txt");
 
-    let f = match f {
+    let mut f = match f {
         Ok(file) => file,
-        Err(error) => match error.kind() {
-            ErrorKind::NotFound => match File::create("hello.txt") {
-                Ok(fc) => fc,
-                Err(e) => panic!("Problem creating the file: {:?}", e),
-            },
-            other_error => panic!("Problem opening the file: {:?}", other_error),
-        },
+        Err(e) => return Err(e),
     };
+
+    println!("{:?}", f);
+
+    let mut s = String::new();
+
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(e) => Err(e),
+    }
 }
 
-// // version using closures
+fn read_username_from_file_operator_question_mark() -> Result<String, io::Error> {
+    let mut f = File::open("hello.txt")?;
+    let mut s = String::new();
+    f.read_to_string(&mut s)?;
+    // error values that have the ? operator called on them go through the from
+    // function, defined in the From trait in the standard library, which is
+    // used to convert errors from one type into another.
+    Ok(s)
+}
+
+fn read_username_from_file_chaining() -> Result<String, io::Error> {
+    //let mut f = File::open("hello.text")?;
+    let mut s = String::new();
+
+    File::open("hello.text")?.read_to_string(&mut s)?;
+
+    Ok(s)
+}
+
+fn read_username_from_file_fn_read_to_string() -> Result<String, io::Error> {
+    fs::read_to_string("hello.txt")
+}
+
 // fn main() {
-//     let f = File::open("hello.txt").unwrap_or_else(|error| {
-//         if error.kind() == ErrorKind::NotFound {
-//             File::create("hello.txt").unwrap_or_else(|error| {
-//                 panic!("Problem creating the file: {:?}", error);
-//             })
-//         } else {
-//             panic!("Problem opening the file: {:?}", error);
-//         }
-//     });
+//     let uname = read_username_from_file();
+//     let uname = match uname {
+//         Ok(s) => s,
+//         Err(e) => panic!(e),
+//     };
+//     println!("{}", uname);
 // }
+
+// `Box<dyn Error>` is a trait object
+fn main() -> Result<(), Box<dyn Error>> {
+    let f = File::open("hello.txt")?;
+
+    Ok(())
+}
