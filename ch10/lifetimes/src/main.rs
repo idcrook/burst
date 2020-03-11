@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+use std::fmt::Display;
 // fn longest(x: &str, y: &str) -> &str {
 //     if x.len() > y.len() {
 //         x
@@ -25,7 +26,58 @@ struct ImportantExcerpt<'a> {
     part: &'a str,
 }
 
+// lifetime elision
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+
+// Lifetimes on function or method parameters are called input lifetimes, and
+// lifetimes on return values are called output lifetimes.
+
+// three rules
+
+// lifetime annotations on method definitions
+impl<'a> ImportantExcerpt<'a> {
+    fn level(&self) -> i32 {
+        3
+    }
+}
+
+impl<'a> ImportantExcerpt<'a> {
+    fn announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("Attention please: {}", announcement);
+        self.part
+    }
+}
+
+// Generic Type Parameters, Trait Bounds, and Lifetimes Together
+fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
 fn main() {
+    // the Static lifetime
+
+    // 'static, which means that this reference can live for the entire
+    // duration of the program. All string literals have the 'static lifetime,
+    // which we can annotate as follows:
+    let s: &'static str = "I have a static lifetime.";
+
     let r;
     {
         let x = 5;
