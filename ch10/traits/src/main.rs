@@ -2,6 +2,17 @@ use traits::NewsArticle;
 use traits::Summary;
 use traits::Tweet;
 
+fn returns_summarizable() -> impl Summary {
+    // only a single type for Summary is allowed to returned however, not a
+    // spectrum of types
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from("of course, as you probably already know, people"),
+        reply: false,
+        retweet: false,
+    }
+}
+
 fn main() {
     let tweet = Tweet {
         username: String::from("horse_ebooks"),
