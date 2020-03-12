@@ -39,6 +39,19 @@ fn main() {
     let simulated_random_number = 3;
 
     generate_workout(simulated_user_specified_value, simulated_random_number);
+
+    // let x = 4;
+    // let equal_to_x = |z| z == x; // x is captured
+    //                              // fn equal_to_x(z: i32) -> bool { z == x } // fn-s do not capture //
+    // let y = 4;
+    // assert!(equal_to_x(y));
+
+    let x = vec![1, 2, 3];
+    let equal_to_x = move |z| z == x;
+    //println!("cannot use x here: {:?}", x);
+
+    let y = vec![1, 2, 3];
+    assert!(equal_to_x(y));
 }
 
 fn generate_workout(intensity: u32, random_number: u32) {
