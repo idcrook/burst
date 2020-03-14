@@ -1,17 +1,25 @@
 use std::sync::mpsc;
 use std::thread;
+use std::time::Duration;
 
 fn main() {
     let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap(); // unwrap will cause a panic upon an error
-
-        // println!("val is {}", val); // oops: borrow of moved value
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+        for val in vals {
+            tx.send(val).unwrap(); // unwrap will cause a panic upon an error
+            thread::sleep(Duration::from_secs(1));
+        }
     });
 
-    // use rx (recv blocks) in the main thread
-    let received = rx.recv().unwrap();
-    println!("Got: {}", received);
+    // can treat rx like an iterator
+    for received in rx {
+        println!("Got: {}", received);
+    }
 }
