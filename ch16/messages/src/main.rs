@@ -7,6 +7,8 @@ fn main() {
     thread::spawn(move || {
         let val = String::from("hi");
         tx.send(val).unwrap(); // unwrap will cause a panic upon an error
+
+        // println!("val is {}", val); // oops: borrow of moved value
     });
 
     // use rx (recv blocks) in the main thread
