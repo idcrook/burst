@@ -8,4 +8,8 @@ fn main() {
         let val = String::from("hi");
         tx.send(val).unwrap(); // unwrap will cause a panic upon an error
     });
+
+    // use rx (recv blocks) in the main thread
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
 }
