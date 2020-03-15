@@ -32,4 +32,6 @@ fn main() {
     for (index, value) in v.iter().enumerate() {
         println!("{} is at index {}", value, index);
     }
+
+    let (x, y, z) = (1, 2, 3);
 }
